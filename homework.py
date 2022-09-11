@@ -2,14 +2,33 @@
    тренировки (плавание, бег, спортивная ходьба) и выводит сообщение о 
    её результатах, с расчетом показателей.'''
 
+from dis import dis
+from math import dist
 from typing import Callable
 
 
 
 class InfoMessage:
     """Информационное сообщение о тренировке."""
-    pass
+    def __init__(self,
+                 training_type: int,
+                 duration: float,
+                 distance : float,
+                 speed: float,
+                 calories: float,
+                 ) -> None:
+        self.training_type = training_type
+        self.duration = duration
+        self.distance = distance
+        self.speed = speed
+        self.calories = calories
 
+    def get_message(self) -> str:
+        return (f'Тип тренировки: {self.training_type}; '
+               f'Длительность: {self.duration} ч.; '
+               f'Дистанция: {self.distance} км; '
+               f'Ср. скорость: {self.speed} км/ч; '
+               f'Потрачено ккал: {self.calories}.')
 
 class Training:
     """Базовый класс тренировки."""
