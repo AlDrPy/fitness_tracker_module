@@ -2,6 +2,10 @@
    тренировки (плавание, бег, спортивная ходьба) и выводит сообщение о 
    её результатах, с расчетом показателей.'''
 
+from typing import Callable
+
+
+
 class InfoMessage:
     """Информационное сообщение о тренировке."""
     pass
@@ -10,20 +14,24 @@ class InfoMessage:
 class Training:
     """Базовый класс тренировки."""
 
+    LEN_STEP: float = 0.65
+    M_IN_KM: int = 1000
     def __init__(self,
                  action: int,
                  duration: float,
                  weight: float,
                  ) -> None:
-        pass
+        self.action = action
+        self.duration = duration
+        self.weight = weight
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
-        pass
+        return self.action * Training.LEN_STEP / Training.M_IN_KM
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
-        pass
+        return self.get_distance() / self.duration
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
@@ -69,4 +77,3 @@ if __name__ == '__main__':
     for workout_type, data in packages:
         training = read_package(workout_type, data)
         main(training)
-
