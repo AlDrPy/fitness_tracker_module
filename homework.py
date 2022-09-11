@@ -2,8 +2,6 @@
    тренировки (плавание, бег, спортивная ходьба) и выводит сообщение о 
    её результатах, с расчетом показателей.'''
 
-from dis import dis
-from math import dist
 from typing import Callable
 
 
@@ -18,10 +16,10 @@ class InfoMessage:
                  calories: float,
                  ) -> None:
         self.training_type = training_type
-        self.duration = duration
-        self.distance = distance
-        self.speed = speed
-        self.calories = calories
+        self.duration = round(duration, 3)
+        self.distance = round(distance, 3)
+        self.speed = round(speed, 3)
+        self.calories = round(calories, 3)
 
     def get_message(self) -> str:
         return (f'Тип тренировки: {self.training_type}; '
@@ -59,6 +57,13 @@ class Training:
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
         pass
+
+        # msg = InfoMessage(training_type: int, 
+        #                   self.duration,
+        #                   self.distance,
+        #                   self.get_mean_speed(),
+        #                   self.get_spent_calories())
+        # return msg
 
 
 class Running(Training):
@@ -122,8 +127,12 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    pass
-
+    dic = {
+        'SWM' : Swimming,
+        'RUN' : Running,
+        'WLK' : SportsWalking
+    }
+    return dic[workout_type](*data)
 
 def main(training: Training) -> None:
     """Главная функция."""
@@ -131,17 +140,14 @@ def main(training: Training) -> None:
 
 
 if __name__ == '__main__':
-    # packages = [
-    #     ('SWM', [720, 1, 80, 25, 40]),
-    #     ('RUN', [15000, 1, 75]),
-    #     ('WLK', [9000, 1, 75, 180]),
-    # ]
+    packages = [
+        ('SWM', [720, 1, 80, 25, 40]),
+        ('RUN', [15000, 1, 75]),
+        ('WLK', [9000, 1, 75, 180]),
+    ]
 
-    # for workout_type, data in packages:
-    #     training = read_package(workout_type, data)
+    for workout_type, data in packages:
+        training = read_package(workout_type, data)
     #     main(training)
-    print(Training.LEN_STEP)
-    run1 = Running(15000, 1, 75)
-    print(run1.get_distance())
-    print(run1.get_mean_speed())
-    print(run1.get_spent_calories())
+        print(type(training))
+
