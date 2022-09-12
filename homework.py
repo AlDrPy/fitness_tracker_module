@@ -9,7 +9,7 @@ from typing import Callable
 class InfoMessage:
     """Информационное сообщение о тренировке."""
     def __init__(self,
-                 training_type: int,
+                 training_type: str,
                  duration: float,
                  distance : float,
                  speed: float,
@@ -33,6 +33,7 @@ class Training:
 
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
+    MIN_IN_HR: int = 60
     def __init__(self,
                  action: int,
                  duration: float,
@@ -70,7 +71,7 @@ class Running(Training):
         coeff_calorie_1 = 18
         coeff_calorie_2 = 20
         return ((coeff_calorie_1 * self.get_mean_speed() - coeff_calorie_2) 
-                * self.weight / Training.M_IN_KM * self.duration)
+                * self.weight / Training.M_IN_KM * self.duration * Training.MIN_IN_HR)
 
 
 class SportsWalking(Training):
@@ -91,7 +92,7 @@ class SportsWalking(Training):
         coeff_calorie_2 = 0.029
         return ((coeff_calorie_1 * self.weight + (self.get_mean_speed()**2
                 // self.height) * coeff_calorie_2 * self.weight) 
-                * self.duration)
+                * self.duration * Training.MIN_IN_HR)
 
 
 class Swimming(Training):
