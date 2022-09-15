@@ -2,7 +2,7 @@
    тренировки (плавание, бег, спортивная ходьба) и выводит сообщение о
    её результатах, с расчетом показателей.'''
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from typing import ClassVar, Dict, List, Tuple, Type
 
 
@@ -15,15 +15,14 @@ class InfoMessage:
     speed: float
     calories: float
 
-    MSG: ClassVar[str] = ('Тип тренировки: {}; '
-                          'Длительность: {:.3f} ч.; '
-                          'Дистанция: {:.3f} км; '
-                          'Ср. скорость: {:.3f} км/ч; '
-                          'Потрачено ккал: {:.3f}.')
+    MSG: ClassVar[str] = ('Тип тренировки: {training_type}; '
+                          'Длительность: {duration:.3f} ч.; '
+                          'Дистанция: {distance:.3f} км; '
+                          'Ср. скорость: {speed:.3f} км/ч; '
+                          'Потрачено ккал: {calories:.3f}.')
 
     def get_message(self) -> str:
-        return (self.MSG.format(self.training_type, self.duration,
-                self.distance, self.speed, self.calories))
+        return (self.MSG.format(**asdict(self)))
 
 
 class Training:
@@ -116,7 +115,6 @@ class Swimming(Training):
         super().__init__(action, duration, weight)
         self.length_pool = length_pool
         self.count_pool = count_pool
-        self.len_step = self.LEN_STEP
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
